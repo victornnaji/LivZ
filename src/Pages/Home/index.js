@@ -1,6 +1,8 @@
 import React from 'react'
 import Hero from '../../Component/Hero'
 import Feature from '../../Component/Feature'
+import Content from '../../Component/Content'
+import CTA from '../../Component/CTA'
 
 
 const Home = () => {
@@ -8,6 +10,8 @@ const Home = () => {
         <div>
             <Hero />
             <Feature/>
+            <Content/>
+            <CTA/>
         </div>
     )
 }

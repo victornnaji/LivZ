@@ -20,6 +20,48 @@ export const BigButton = ({children, to,}) => {
     )
 };
 
+export const OutlineButton = ({children, to}) => {
+    return (
+        <OutlineButtonStyle to={to}>
+            {children}
+        </OutlineButtonStyle>
+    )
+} 
+
+const OutlineButtonStyle = styled(Link)`
+    color: #fff;
+    border: 2px solid #fff;
+    font-family: 'Karla', sans-serif;
+    width: 226px;
+    height: 60px;
+    border-radius: 3px;
+    border: 2px solid #ffffff;
+    background-color: #258aff;
+    letter-spacing: -1.12px;
+    font-weight: 700;
+    font-size: 16px;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 3px;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    height: 50px;
+
+    &:hover{
+        background-color: #fff;
+        color: #000;
+        border-color: #fff;
+    }
+`;
+
+
 const BigButtonStyle = styled(Link)`
     font-family: inherit;
     text-decoration: none;

@@ -1,6 +1,30 @@
 import React from 'react'
 import styled from 'styled-components';
+import IconText from '../../Atom/IconText';
 
+const Texts = [
+    {
+        icon: "icon-edit-72",
+        h5: "ChalkBoard Available",
+        p: "Whether it is a small diagram or rough work, chalkboard is available to use."
+    },
+    {
+        icon: "icon-tablet-mobile",
+        h5: "100% Responsive",
+        p: "Whether it’s a small phone or a large desktop, LivZ can be used and accessible"
+    },
+    {
+        icon: "icon-webpage",
+        h5: "Rich IDE",
+        p: "Quickly share code blocks live and easily among peers. Contribute in real time."
+    },
+    {
+        icon: "icon-l-settings",
+        h5: "Quick Setup",
+        p: "No sign up required. Just start sharing videos immediately."
+    },
+    
+]
 const Feature = () => {
     return (
         <FeatureStyle>
@@ -13,52 +37,9 @@ const Feature = () => {
                 <div className="row justify-content-center">
                     <div className="col-lg-10">
                         <div className="row mb-d-30">
-                            <div className="col-sm-6 mb--30">
-                                <div className="feature-widget">
-                                    <div className="widget-icon">
-                                        <i className="icon icon-edit-72"></i>
-                                    </div>
-                                    <div className="content">
-                                        <h5>ChalkBoard Available</h5>
-                                        <p>Whether it is a small diagram or rough work, chalkboard is available to use.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div className="col-sm-6 mb--30">
-                                <div className="feature-widget">
-                                    <div className="widget-icon">
-                                        <i className="icon icon-tablet-mobile"></i>
-                                    </div>
-                                    <div className="content">
-                                        <h5>100% Responsive</h5>
-                                        <p>Whether it’s a small phone or a large desktop, LivZ can be used and accessible</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-sm-6 mb--30">
-                                <div className="feature-widget">
-                                    <div className="widget-icon">
-                                        <i className="icon icon-webpage"></i>
-                                    </div>
-                                    <div className="content">
-                                        <h5>Rich IDE</h5>
-                                        <p>Quickly share code blocks live and easily among peers. Contribute in real time.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div className="col-sm-6 mb--30">
-                                <div className="feature-widget">
-                                    <div className="widget-icon">
-                                        <i className="icon icon-l-settings"></i>
-                                    </div>
-                                    <div className="content">
-                                        <h5>Quick Setup</h5>
-                                        <p>No sign up required. Just start sharing videos immediately.</p>
-                                    </div>
-                                </div>
-                            </div>
+                            {Texts.map(text => (
+                                <IconText key={text.icon} icon={text.icon} h5={text.h5} p={text.p}/>
+                            ))}
                         </div>
                     </div>
                 </div>
