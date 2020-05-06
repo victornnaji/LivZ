@@ -10,7 +10,7 @@ const NavBar = () => {
                 <NavContainer>
                     <Brand to="/">LivZ</Brand>
                     <Menu>
-                       <Button primary to="/remote">Start Sharing</Button>
+                       <Button primary="true" to="/remote">Start Sharing</Button>
                     </Menu>
                 </NavContainer>
             </div>
