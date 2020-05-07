@@ -29,6 +29,10 @@ const CTA = () => {
 }
 
 const CTAStyle = styled.div`
+  margin-bottom: 30px;
+  @media(min-width: 768px){
+    margin-bottom: 150px;
+  }
   .cta-inner-wrapper {
     background-color: #192f48;
     position: relative;
