@@ -1,30 +1,45 @@
-import React from 'react'
+import React, { useState} from 'react'
 import styled from 'styled-components';
 import {ClickButton } from '../../Atom/Button';
+import { withRouter } from "react-router";
 
-const Remote = () => {
+const Remote = ({history}) => {
 
-    const handleClick = (e) => {
-        e.preventDefault();
-        console.log("hello");
+    const [state, setState] = useState({
+        name: "",
+        room: "",
+    });
+
+    const handleChange = (value) => {
+        setState({
+            ...state,
+            [value.target.name]: value.target.value
+        })
     }
+
+
+    const handleClick = () => {
+        // console.log(state);
+        history.push("/host", state);
+    }
+
     return (
         <RemoteStyle>
            <div className="form-holder">
-                <div class="container">
-                    <div class="row input-container">
-                        <div class="styled-input wide">
-                            <input type="text" required />
+                <div className="container">
+                    <div className="row input-container">
+                        <div className="styled-input wide">
+                            <input type="text" required name="name" value={state.name} onChange={handleChange}/>
                             <label>Display Name</label> 
                         </div>
                             
-                        <div class="styled-input wide">
-                            <input type="text" required />
+                        <div className="styled-input wide">
+                            <input type="text" required  name="room" value={state.room} onChange={handleChange}/>
                             <label>Room Name</label> 
                         </div>
                     </div>
 
-                    <ClickButton to="/host" primary="true" onClick={handleClick}>
+                    <ClickButton onClickkkk={handleClick} primary="true" >
                             Continue
                     </ClickButton>
 
@@ -34,7 +49,7 @@ const Remote = () => {
     )
 }
 
-const RemoteStyle = styled.div`
+export const RemoteStyle = styled.div`
 
     .form-holder{
         position: absolute;
@@ -98,4 +113,4 @@ input {
 
 `;
 
-export default Remote;
+export default withRouter(Remote);

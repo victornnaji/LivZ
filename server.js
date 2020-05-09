@@ -6,9 +6,11 @@ dotenv.config();
 const PORT = process.env.PORT || 5000;
 const AccessToken = require('twilio').jwt.AccessToken;
 const VideoGrant = AccessToken.VideoGrant;
+const cors = require('cors');
 
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
+// app.use(cors());
 
 let users = [];
 let rooms = [];
@@ -56,15 +58,9 @@ io.on('connection', (socket) => {
 
   app.use(express.static(path.join(__dirname, 'build')));
 
-  app.get('/host', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-  });
-  
-  app.get('/remote/:roomId', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'remote.html'));
-  });
-  
-  app.get('/generate-token/:roomname/:identity' , (req, res) => {
+  app.get('/generate-token/:roomname/:identity', cors() , (req, res) => {
+    // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    // req.setHeader('Access-Control-Allow-Origin', '*');
     // Substitute your Twilio AccountSid and ApiKey details
     const ACCOUNT_SID = process.env.ACCOUNT_SID;
     const API_KEY_SID = process.env.API_KEY_SID;
@@ -88,8 +84,10 @@ io.on('connection', (socket) => {
     token.identity = identity;
   
     // Serialize the token as a JWT
-    const jwt = token.toJwt();
-    res.status(200).json({ jwt });
+    // const jwt = token.toJwt();
+    // res.status(200).json({ jwt });
+    res.send(token.toJwt());
+    
   });
 
   app.get('*', (_, res) => res.sendFile(path.join(__dirname, 'build/index.html')));

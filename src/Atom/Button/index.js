@@ -19,9 +19,11 @@ export const BigButton = ({children, to,}) => {
         </BigButtonStyle>
     )
 };
-export const ClickButton = ({children}) => {
+
+export const ClickButton = ({children, onClickkkk}) => {
+
     return (
-        <ClickButtonStyle>
+        <ClickButtonStyle onClick={onClickkkk}>
             {children}
             <span className="cursor-arrow"></span>
         </ClickButtonStyle>
