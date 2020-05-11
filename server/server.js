@@ -26,27 +26,26 @@ io.on('connection', (socket) => {
       io.sockets.in(room).emit('roomCreated', true);
     });
   
-    socket.on('joinRoom', ({ room, username, color}) => {
+    socket.on('joinRoom', ({ room, username}) => {
       if (rooms.includes(room)) {
         socket.join(room);
         io.sockets.in(room).emit('message', {
           username,
           message: `joined the stream`,
-          color
+          alert: true,
         });
       } else {
         socket.emit('errorMsg', 'Room doesn\'t exist, invalid URL')
       }
     });
   
-    socket.on('sendChatMessage', ({ room, username, message, color}) => {
-      // console.log(room, username, message, color);
+    socket.on('sendChatMessage', ({ room, username, message}) => {
       if (rooms.includes(room)) {
         io.sockets.in(room).emit('message', {
           username,
           message,
-          color
         })
+        // console.log(username, message);
       }
     });
   
@@ -54,7 +53,8 @@ io.on('connection', (socket) => {
       users.splice(socket.id, 1);
       // console.log(`user disconnected, ${users.length} left`);
     })
-  });
+});
+
 
   app.use(express.static(path.join(__dirname, 'build')));
 

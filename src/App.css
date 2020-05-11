@@ -1,4 +1,11 @@
 /*=== Media Query ===*/
+:root {
+  --body-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  --msger-bg: #fff;
+  --border: 2px solid #ddd;
+  --left-msg-bg: #ececec;
+  --right-msg-bg: #579ffb;
+}
 /* Reset CSS */
 @import url("https://fonts.googleapis.com/css?family=Karla:400,400i,700,700i&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Gothic+A1:100,200,300,400,500,600,700,800,900&display=swap");
@@ -129,3 +136,11 @@ button:focus {
     75%{opacity: .8;}
     100%{opacity: 1;}
   }
+
+@media(max-width:  768.5px){
+    .name-holder{
+      flex-direction: column;
+      justify-content: space-between;
+      height: 80px;
+   }
+}

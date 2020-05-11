@@ -20,7 +20,6 @@ const Join = ({history, match}) => {
 
         else{
             setError("Please Enter a name");
-            console.log("enter a name");
         }
     }
 
@@ -63,7 +62,7 @@ const Join = ({history, match}) => {
     )
 };
 
-const ErrorStyle = styled.div`
+export const ErrorStyle = styled.div`
   .alert {
     background-color: #29d2e4;
     border: 1px solid #29d2e4;
