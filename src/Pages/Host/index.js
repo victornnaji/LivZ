@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react';
-import ReactDOM from 'react-dom';
 import { withRouter } from "react-router";
 import { uuid } from 'uuidv4';
 import { uniqueNamesGenerator, adjectives, colors, starWars } from 'unique-names-generator';
