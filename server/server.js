@@ -39,13 +39,9 @@ io.on('connection', (socket) => {
       }
     });
   
-    socket.on('sendChatMessage', ({ room, username, message}) => {
+    socket.on('sendChatMessage', ({ room, username, message, userIdentity}) => {
       if (rooms.includes(room)) {
-        io.sockets.in(room).emit('message', {
-          username,
-          message,
-        })
-        // console.log(username, message);
+        io.sockets.in(room).emit('message', {username,message,userIdentity})
       }
     });
   

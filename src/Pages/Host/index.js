@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import ReactDOM from 'react-dom';
 import { withRouter } from "react-router";
-import { fromString, uuid } from 'uuidv4';
+import { uuid } from 'uuidv4';
 import { uniqueNamesGenerator, adjectives, colors, starWars } from 'unique-names-generator';
 import axios from 'axios';
 import styled from 'styled-components';
@@ -22,15 +23,19 @@ const Host = ({history}) => {
         separator: '-',
     }
     const name = history.location.state.name || "Host";
-    const identity = uuid();
     const genRoom = uniqueNamesGenerator(config).split(" ")[0];
     const room = history.location.state.room.split(" ").join("-") || genRoom ;
 
+    const [identity, setIdentity] = useState('')
+    
+    const mesRef = useRef(null);
+
     useEffect(() => {
-        const generateLink = () => {
-            const link = `${window.location.origin}/remote/${room}`;
-            setLink(link);
-        }
+        let x  = uuid();
+        setIdentity(x);
+    }, []);
+
+    useEffect(() => {
      const getAccessToken = async () => {
         try {
             isLoading(true);
@@ -40,7 +45,6 @@ const Host = ({history}) => {
                 isLoading(false);
             }, 3000);
             setToken(data);
-            generateLink();
         } catch(e) {
             console.error('Err', e);
         }
@@ -48,7 +52,10 @@ const Host = ({history}) => {
       getAccessToken();
     }, [name, room]);
 
-    
+    const generateLink = () => {
+        const link = `${window.location.origin}/remote/${room}`;
+        setLink(link);
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -64,20 +71,22 @@ const Host = ({history}) => {
         socket.emit('createChatRoom', {
           room: room
         });
-        console.log(room);
     }
 
     const sendChatMessage = (message) => {
         socket.emit('sendChatMessage', {
           room: room,
           username: name,
+          userIdentity: identity,
           message,
-        });
-        
-        socket.on('message', ({username, message, alert}) => {
+        });        
+    }
+
+    useEffect(() => {
+        socket.on('message', ({username, message, alert, userIdentity}) => {
             console.log(username);
             let side ="";
-            if(name=== username){
+            if(userIdentity=== identity){
                 side = "right";
             }else{
                 side = "left";
@@ -88,16 +97,18 @@ const Host = ({history}) => {
                 message: alert ? `${username} ${message}` : message,
                 alert
             }
-            setMessages(messages => messages.concat(query))
+            setMessages(() => ([...messages, query]));
+            mesRef.current.scrollTop = mesRef.current.scrollHeight;
         });
-    }
+    }, [identity, messages]);
 
     const startStream = async (streamType = 'default') => {
         createChatRoom();
+        generateLink();
     }
 
     socket.on('roomCreated', (data) => {
-        console.log('roomcreated', data);
+        // console.log('roomcreated', data);
     });
 
     
@@ -127,7 +138,7 @@ const Host = ({history}) => {
                                     </div>
                                 </header>
 
-                                <main className="msger-chat">
+                                <main className="msger-chat" ref={mesRef}>
                                     {
                                         messages.map((x, i) => (
                                             <Bubble name={x.name} side={x.side} message={x.message} alert={x.alert} key={i}/>
@@ -181,7 +192,6 @@ export const HostStyle = styled.div`
   }
 
   .chat-holder {
-    /* padding: 5px; */
 
     .msger {
       display: flex;
@@ -214,8 +224,8 @@ export const HostStyle = styled.div`
       flex: 1;
       overflow-y: auto;
       padding: 10px;
-      min-height: 20vh;
-      max-height: 50vh;
+      min-height: 70vh;
+      max-height: 70vh;
 
       @media(min-width: 768px){
           max-height: 80vh;

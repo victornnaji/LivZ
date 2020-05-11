@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { ErrorStyle } from '../../Pages/Join';
 
 const Bubble = ({side, name, message, alert}) => {
@@ -8,10 +8,6 @@ const Bubble = ({side, name, message, alert}) => {
       
         return `${h.slice(-2)}:${m.slice(-2)}`;
     }
-
-    useEffect(() => {
-        // document.querySelector(".msger-chat").scrollTop += 500;
-    }, [name]);
 
     const nm = name;
     name = name?.split(' ').join("+");

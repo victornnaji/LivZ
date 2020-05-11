@@ -11,7 +11,6 @@ const Guest = ({history, match}) => {
     
     const guest = history.location.state?.name;
     const roomFromLink = match.params.id;
-    const identity = uuid();
     const [token, setToken] = useState('');
     const [loading, isLoading] = useState(false);
     const [chat, setChat] = useState("");
@@ -22,6 +21,13 @@ const Guest = ({history, match}) => {
     if(guest === undefined){
         history.push("/404");
     }
+
+    const [identity, setIdentity] = useState('')
+
+    useEffect(() => {
+        let x  = uuid();
+        setIdentity(x);
+    }, []);
 
     useEffect(() => {
      const getAccessToken = async () => {
@@ -44,6 +50,9 @@ const Guest = ({history, match}) => {
         });
     }, [guest, roomFromLink]);
 
+    // useEffect(() => {
+        
+    // }, [messages]); 
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -59,12 +68,15 @@ const Guest = ({history, match}) => {
         socket.emit('sendChatMessage', {
           room: roomFromLink,
           username: guest,
+          userIdentity: identity,
           message,
         });
-        
-        socket.on('message', ({username, message, alert}) => {
+    }
+    useEffect(() => {
+        socket.on('message', ({username, message, alert, userIdentity}) => {
+            console.log(username, alert);
             let side ="";
-            if(guest=== username){
+            if(userIdentity=== identity){
                 side = "right";
             }else{
                 side = "left";
@@ -72,13 +84,13 @@ const Guest = ({history, match}) => {
             let query = {
                 name: username,
                 side,
-                message,
-                alert,
+                message: alert ? `${username} ${message}` : message,
+                alert
             }
-            setMessages(messages => messages.concat(query))
+            console.log(messages, message)
+            setMessages(() => ([...messages, query]))
         });
-    }
-
+    }, [guest, messages, identity]);
 
     return (
         <>
